@@ -16,6 +16,12 @@ Veja a [demo em quatro telas](demo/README.md).
 
 Defini os fluxos da cliente e da equipe, transformei requisitos em instruções iterativas para o Codex e revisei o comportamento no navegador. Uma decisão foi tratar o conflito de horários no banco de dados. Mesmo quando duas pessoas tentam reservar ao mesmo tempo, apenas uma reserva pode ser confirmada para o mesmo intervalo.
 
+Descrevi a regra de confirmação em um dos primeiros prompts sobre o agendamento.
+
+> Se for um horario disponivel ja fica confirmado, cliente quiser desmarcar entra em contato com a clinica.
+
+Na revisão, pedi ao Codex que demonstrasse o que acontece quando duas pessoas tentam confirmar o mesmo horário. A validação em duas abas confirmou que só a primeira reserva apareceu na agenda e que a segunda tentativa recebeu um aviso de horário indisponível.
+
 ## Como experimentar
 
 Com Node.js 24 ou superior, execute na pasta do projeto:
