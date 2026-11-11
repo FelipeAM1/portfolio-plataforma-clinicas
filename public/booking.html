@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agendamento · Plataforma de Estética</title>
+    <link rel="stylesheet" href="/panel.css">
+    <script type="module" src="/booking.js"></script>
+  </head>
+  <body>
+    <header>
+      <span class="brand"><span aria-hidden="true">✧</span> Plataforma de Estética</span>
+      <a href="/">Painel da equipe</a>
+    </header>
+    <main>
+      <div class="booking-heading">
+        <p class="eyebrow">AGENDAMENTO ONLINE</p>
+        <h1 id="booking-clinic">Carregando clínica…</h1>
+        <p>Escolha um serviço e reserve um horário disponível.</p>
+      </div>
+      <div class="booking-layout" id="booking-content" hidden>
+        <section class="card" aria-labelledby="catalog-title">
+          <h2 id="catalog-title">Catálogo de serviços</h2>
+          <div id="public-catalog"></div>
+        </section>
+        <section class="card" aria-labelledby="booking-title">
+          <h2 id="booking-title">Reserve seu horário</h2>
+          <p>Os horários seguem a hora local da clínica. Para remarcar ou cancelar, fale diretamente com a clínica.</p>
+          <form id="booking-form">
+            <label for="option">Serviço e opção</label>
+            <select id="option" name="optionId" required></select>
+            <label for="date">Data</label>
+            <input id="date" type="date" name="date" required>
+            <label for="slot">Horário e profissional</label>
+            <select id="slot" required></select>
+            <p class="muted" id="slots-status" role="status"></p>
+            <label for="patient-name">Nome completo</label>
+            <input id="patient-name" name="patientName" minlength="2" maxlength="100" autocomplete="off" required>
+            <label for="phone">Telefone com DDD</label>
+            <input id="phone" name="phone" type="tel" maxlength="24" autocomplete="off" required>
+            <button type="submit" id="confirm-booking">Confirmar agendamento</button>
+          </form>
+          <div class="feedback" id="booking-result" role="status" hidden></div>
+        </section>
+      </div>
+      <p class="feedback" id="booking-error" role="alert" hidden></p>
+    </main>
+    <footer>Ambiente de teste. Use somente nomes e telefones fictícios.</footer>
+  </body>
+</html>

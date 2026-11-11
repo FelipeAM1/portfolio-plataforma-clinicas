@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plataforma de Estética</title>
+    <link rel="stylesheet" href="/panel.css">
+    <script type="module" src="/panel.js"></script>
+  </head>
+  <body>
+    <header>
+      <span class="brand"><span aria-hidden="true">✧</span> Plataforma de Estética</span>
+      <button id="logout" class="secondary" hidden>Sair da conta</button>
+    </header>
+    <main>
+      <section id="login" class="login-card" aria-labelledby="login-title">
+        <p class="eyebrow">ESPAÇO DA EQUIPE</p>
+        <h1 id="login-title">Entre na sua conta</h1>
+        <p>Acesse a agenda, os serviços e os cadastros da sua clínica.</p>
+        <form id="login-form">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" maxlength="254" required autocomplete="username">
+          <label for="password">Senha</label>
+          <input id="password" name="password" type="password" maxlength="128" required autocomplete="current-password">
+          <button type="submit">Entrar no painel</button>
+        </form>
+      </section>
+      <section id="panel" hidden aria-labelledby="clinic-name">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">ESPAÇO DA CLÍNICA</p>
+            <h1 id="clinic-name">Seu painel</h1>
+            <p id="profile"></p>
+          </div>
+          <div id="clinic-choice">
+            <label for="clinic">Clínica</label>
+            <select id="clinic"></select>
+          </div>
+        </div>
+        <nav id="clinic-nav" class="clinic-nav" aria-label="Atalhos do painel">
+          <a href="#agenda">Agenda</a>
+          <a href="#catalog">Serviços</a>
+          <a href="#patients">Pacientes</a>
+          <a id="booking-link" href="/">Página de agendamento ↗</a>
+        </nav>
+        <section id="agenda" class="card">
+          <h2>Agenda</h2>
+          <label for="agenda-date">Data dos atendimentos</label>
+          <input id="agenda-date" type="date">
+          <ul class="record-list" id="booking-list" aria-live="polite"></ul>
+          <details id="hours-editor" hidden>
+            <summary>Configurar horários semanais</summary>
+            <form id="hours-form" class="editor-form">
+              <div><label for="hours-staff">Profissional</label><select id="hours-staff" name="staffId" required></select></div>
+              <div><label for="weekday">Dia da semana</label>
+                <select id="weekday" name="weekday">
+                  <option value="1">Segunda-feira</option><option value="2">Terça-feira</option>
+                  <option value="3">Quarta-feira</option><option value="4">Quinta-feira</option>
+                  <option value="5">Sexta-feira</option><option value="6">Sábado</option>
+                  <option value="7">Domingo</option>
+                </select>
+              </div>
+              <div><label for="opens">Das</label><input id="opens" name="opens" type="time" required></div>
+              <div><label for="closes">Até</label><input id="closes" name="closes" type="time" required></div>
+              <button>Adicionar intervalo</button>
+            </form>
+            <ul class="record-list" id="hours-list"></ul>
+          </details>
+        </section>
+        <section id="catalog" class="card">
+          <h2>Catálogo de serviços</h2>
+          <div id="clinic-catalog"></div>
+          <div id="catalog-editor" hidden>
+            <details>
+              <summary>Categorias e subcategorias</summary>
+              <form id="categories-form" class="editor-form">
+                <div><label for="category-item">Categoria</label><select id="category-item" name="id"></select></div>
+                <div><label for="category-name">Nome</label><input id="category-name" name="name" required minlength="2" maxlength="100"></div>
+                <div id="category-parent-field"><label for="category-parent">Categoria principal (opcional)</label><select id="category-parent" name="parentId"></select></div>
+                <button>Salvar categoria</button>
+              </form>
+            </details>
+            <details>
+              <summary>Serviços e profissionais</summary>
+              <form id="services-form" class="editor-form">
+                <div><label for="service-item">Serviço</label><select id="service-item" name="id"></select></div>
+                <div><label for="service-name">Nome</label><input id="service-name" name="name" required minlength="2" maxlength="100"></div>
+                <div><label for="service-category">Categoria</label><select id="service-category" name="categoryId" required></select></div>
+                <fieldset><legend>Profissionais habilitadas</legend><div id="service-staff"></div></fieldset>
+                <label class="check"><input name="active" type="checkbox" checked> Visível no agendamento</label>
+                <button>Salvar serviço</button>
+              </form>
+            </details>
+            <details>
+              <summary>Opções, duração e preços</summary>
+              <p>Adicione ao menos uma opção por serviço. Use um nome como “Sessão” quando houver apenas uma.</p>
+              <form id="options-form" class="editor-form">
+                <div><label for="option-item">Opção</label><select id="option-item" name="id"></select></div>
+                <div><label for="option-service">Serviço</label><select id="option-service" name="serviceId" required></select></div>
+                <div><label for="option-name">Nome</label><input id="option-name" name="name" required minlength="2" maxlength="100"></div>
+                <div><label for="duration">Duração (minutos)</label><input id="duration" name="duration" type="number" min="15" max="480" required></div>
+                <div><label for="price-kind">Tipo de preço</label>
+                  <select id="price-kind" name="priceKind">
+                    <option value="fixed">Fixo</option><option value="from">A partir de</option>
+                    <option value="unit">Por unidade</option><option value="quote">Sob consulta</option>
+                  </select>
+                </div>
+                <div id="price-field"><label for="price">Valor (R$)</label><input id="price" name="price" type="number" min="0" max="999999.99" step="0.01" required></div>
+                <div id="unit-field" hidden><label for="price-unit">Unidade (ex. mL)</label><input id="price-unit" name="priceUnit" minlength="2" maxlength="30"></div>
+                <label class="check"><input name="active" type="checkbox" checked> Visível no agendamento</label>
+                <button>Salvar opção</button>
+              </form>
+            </details>
+          </div>
+        </section>
+        <section id="settings" class="card" hidden>
+          <h2>Identidade da clínica</h2>
+          <form id="clinic-form" class="inline-form">
+            <div><label for="name">Nome da clínica</label><input id="name" name="name" required minlength="2" maxlength="100"></div>
+            <button type="submit">Salvar nome</button>
+          </form>
+        </section>
+        <section id="patients" class="card">
+          <h2>Pacientes</h2>
+          <p id="patient-scope"></p>
+          <ul id="patient-list"></ul>
+        </section>
+      </section>
+      <p id="notice" role="status" aria-live="polite" hidden></p>
+    </main>
+    <dialog id="care-dialog" aria-labelledby="care-title">
+      <header class="dialog-heading">
+        <h2 id="care-title">Ficha da paciente</h2>
+        <form method="dialog"><button class="secondary">Fechar</button></form>
+      </header>
+      <p id="care-notice" role="status" hidden></p>
+      <form id="link-patient-form" hidden>
+        <p id="link-booking-name"></p>
+        <label for="link-patient">Cadastro da profissional</label>
+        <select id="link-patient" name="patientId" required></select>
+        <div class="care-actions">
+          <button id="link-existing" value="existing">Vincular cadastro</button>
+          <button class="secondary" value="create" formnovalidate>Criar cadastro pela reserva</button>
+        </div>
+      </form>
+      <form id="encounter-form" hidden>
+        <p id="encounter-booking-name"></p>
+        <label for="encounter-procedure">Procedimento realizado</label>
+        <input id="encounter-procedure" name="procedure" required minlength="2" maxlength="220">
+        <label for="encounter-complaint">Queixa relatada</label>
+        <textarea id="encounter-complaint" name="complaint" maxlength="220" rows="2"></textarea>
+        <label for="encounter-allergies">Alergias relatadas</label>
+        <textarea id="encounter-allergies" name="allergies" maxlength="220" rows="2"></textarea>
+        <label for="encounter-notes">Intercorrências e observações</label>
+        <textarea id="encounter-notes" name="notes" maxlength="220" rows="2"></textarea>
+        <button class="care-save">Salvar atendimento</button>
+      </form>
+      <div id="care-history" hidden></div>
+    </dialog>
+    <footer>Ambiente de testes com cadastros fictícios</footer>
+  </body>
+</html>

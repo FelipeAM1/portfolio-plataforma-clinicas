@@ -1,0 +1,14 @@
+{
+  "name": "plataforma-estetica",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "node src/start.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.16"
+  }
+}
